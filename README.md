@@ -8,7 +8,7 @@
 | 251019771 | Daniel Filipe Borges de Oliveira |
 ---
 ## Sobre
-O projeto é uma **ferramenta educacional interativa** desenvolvida para ensinar algoritmos de grafos na prática, no formato de minigames. O usuário interage com uma interface visual, selecionando nós e caminhos, e o sistema avalia suas escolhas comparando-as com a solução ótima gerada pelos algoritmos clássicos.
+O Algoritmica é uma **ferramenta educacional interativa** desenvolvida para ensinar algoritmos de grafos na prática, no formato de minigames. O usuário interage com uma interface visual, selecionando nós e caminhos, e o sistema avalia suas escolhas comparando-as com a solução ótima gerada pelos algoritmos clássicos.
 
 ### 🛠️ Tecnologias e Bibliotecas Utilizadas
 Para garantir um desenvolvimento ágil focado na lógica estrutural, adotamos a seguinte stack:
