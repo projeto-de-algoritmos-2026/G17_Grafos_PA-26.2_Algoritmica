@@ -46,7 +46,7 @@ def calcular_score_dijkstra(grafo_json, caminho_usuario):
     fila_prioridade = [(0, no_inicio)]
     
     while fila_prioridade:
-        custo_atual, no_atual = heapq.healgoritmicaop(fila_prioridade)
+        custo_atual, no_atual = heapq.heappop(fila_prioridade)
         
         if custo_atual > distancias[no_atual]:
             continue
@@ -58,7 +58,7 @@ def calcular_score_dijkstra(grafo_json, caminho_usuario):
             novo_custo = custo_atual + peso
             if novo_custo < distancias[vizinho]:
                 distancias[vizinho] = novo_custo
-                heapq.healgoritmicaush(fila_prioridade, (novo_custo, vizinho))
+                heapq.heappush(fila_prioridade, (novo_custo, vizinho))
 
     custo_otimo = distancias[no_destino]
 
