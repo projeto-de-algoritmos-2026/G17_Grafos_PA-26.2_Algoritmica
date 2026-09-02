@@ -22,6 +22,12 @@ def calcular_score_dijkstra(grafo_json, caminho_usuario):
     no_inicio = caminho_usuario[0]
     no_destino = caminho_usuario[-1]
 
+    if no_inicio != "A" or no_destino != "D":
+        return {
+            "mensagem": "O caminho deve começar em A e terminar em D.",
+            "score": 0
+        }
+
     #calcula o custo do caminho escolhido
     custo_usuario = 0
     caminho_valido = True

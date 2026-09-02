@@ -27,16 +27,35 @@
         async function carregarJogo() {
             const resposta = await fetch("http://127.0.0.1:8000/api/grafo");
             const dados = await resposta.json();
+            const elementos = {
+                nodes: [
+                    { data: { id: 'A' }, position: { x: 80, y: 200 } },
+                    { data: { id: 'B' }, position: { x: 250, y: 100 } },
+                    { data: { id: 'C' }, position: { x: 250, y: 300 } },
+                    { data: { id: 'D' }, position: { x: 500, y: 200 } }
+                ],
+                edges: dados.edges
+            };
 
             cy = cytoscape({
                 container: document.getElementById('cy'),
-                elements: dados,
+                elements: elementos,
                 style: [
                     { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
                     { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
                     { selector: '.selecionado', style: { 'background-color': '#28a745' } }
                 ],
-                layout: { name: 'circle' }
+                layout: {
+                    name: 'preset',
+                    fit: false
+                }
+                
+            });
+
+            cy.ready(() => {
+                cy.resize();
+                cy.fit(cy.elements(), 40);
+                cy.center();
             });
 
             cy.on('tap', 'node', function(evt){
@@ -59,8 +78,9 @@
         }
 
         async function enviarPalpite() {
-            if (caminhoSelecionado.length < 2) {
-                alert("Selecione pelo menos um ponto de partida e um destino!");
+            if (caminhoSelecionado.length < 2 || caminhoSelecionado[0] !== "A" 
+            || caminhoSelecionado[caminhoSelecionado.length - 1] !== "D") {
+                alert("O caminho deve começar em A e terminar em D!");
                 return;
             }
 

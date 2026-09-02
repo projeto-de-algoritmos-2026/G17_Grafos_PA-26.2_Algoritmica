@@ -6,7 +6,7 @@ body {
 
 #cy {
     width: min(600px, 90vw);
-    height: min(400px, 60vh);
+    height: 400px;
     margin: 20px auto;
     border: 2px solid #333;
     background: white;
