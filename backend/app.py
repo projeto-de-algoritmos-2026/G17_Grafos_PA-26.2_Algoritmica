@@ -17,7 +17,7 @@ GRAFO_ESTATICO = {
         {"data": {"id": "A"}}, {"data": {"id": "B"}},
         {"data": {"id": "C"}}, {"data": {"id": "D"}}
     ],
-    "edges": [
+    "edges": [ #                   raiz          destino       peso
         {"data": {"id": "AB", "source": "A", "target": "B", "weight": 5}},
         {"data": {"id": "AC", "source": "A", "target": "C", "weight": 2}},
         {"data": {"id": "CB", "source": "C", "target": "B", "weight": 1}},

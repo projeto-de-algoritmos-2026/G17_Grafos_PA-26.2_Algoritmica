@@ -50,8 +50,12 @@
                 layout: {
                     name: 'preset',
                     fit: false
-                }
-                
+                },
+
+                userZoomingEnabled: false, //impede zoom in e zoom out
+                userPanningEnabled: false, //impede arrastar a tela
+                autoungrabify: true, //impede arrastar os nós
+                boxSelectionEnabled: false
             });
 
             cy.ready(() => {
