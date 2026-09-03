@@ -29,3 +29,20 @@ Siga o passo a passo abaixo para rodar a aplicação no seu ambiente local.
 **1. Clone o repositório:**
 ```bash
 git clone [https://github.com/projeto-de-algoritmos-2026/G17_grafos_PA-26.2]
+```
+
+**2. Entre na pasta backend do projeto, instale as dependências e ligue o servidor**
+```bash
+cd .\backend\ #vai para o diretório backend
+
+pip install -r requirements.txt #instala as bibliotecas necessárias
+
+uvicorn app:algoritmica --reload #liga o servidor
+```
+
+**3. Abra index.html**
+
+---
+## Vídeo de Apresentação
+
+---
