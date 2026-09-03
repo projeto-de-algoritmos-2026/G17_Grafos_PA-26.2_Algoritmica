@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Testando Dijkstra</h1>
-    <p>Encontre a rota com o <b>menor custo</b> saindo de <b>A</b> até <b>D</b>.</p>
+    <h2>Encontre a rota com o <b>menor custo</b> saindo de <b>A</b> até <b>D</b>.</h2>
     <p>Clique nos nós na ordem do seu caminho:</p>
     
     <div id="cy"></div>
@@ -43,7 +43,9 @@
                 style: [
                     { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
                     { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
-                    { selector: '.selecionado', style: { 'background-color': '#28a745' } }
+    
+                    { selector: 'node.selecionado', style: {'background-color': '#28a745', 'transition-property': 'background-color', 'transition-duration': '0.3s'} },
+                    { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } }
                 ],
                 layout: {
                     name: 'preset',
@@ -63,6 +65,11 @@
                 let idDoNo = noClicado.id();
 
                 if (!caminhoSelecionado.includes(idDoNo)) {
+                    if (caminhoSelecionado.length > 0){
+                        let ultimoNo = caminhoSelecionado[caminhoSelecionado.length - 1];
+                        let aresta = cy.edges(`[source = "${ultimoNo}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${ultimoNo}"]`);
+                        aresta.addClass('selecionado');
+                    }
                     caminhoSelecionado.push(idDoNo);
                     noClicado.addClass('selecionado');
                     document.getElementById('caminho-texto').innerText = caminhoSelecionado.join(" ➔ ");
@@ -73,6 +80,9 @@
         function limparSelecao() {
             caminhoSelecionado = [];
             cy.nodes().removeClass('selecionado');
+
+            cy.edges().removeClass('selecionado');
+
             document.getElementById('caminho-texto').innerText = "Nenhum nó selecionado";
             document.getElementById('resultado').innerText = "";
         }
