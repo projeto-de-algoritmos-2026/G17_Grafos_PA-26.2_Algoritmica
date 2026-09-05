@@ -44,16 +44,36 @@ let cy;
             cy.on('tap', 'node', function(evt){
                 let noClicado = evt.target;
                 let idDoNo = noClicado.id();
+                let indexNo = caminhoSelecionado.indexOf(idDoNo);
 
-                if (!caminhoSelecionado.includes(idDoNo)) {
-                    if (caminhoSelecionado.length > 0){
+                if (indexNo === -1) {
+                    if (caminhoSelecionado.length > 0) {
                         let ultimoNo = caminhoSelecionado[caminhoSelecionado.length - 1];
                         let aresta = cy.edges(`[source = "${ultimoNo}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${ultimoNo}"]`);
                         aresta.addClass('selecionado');
                     }
                     caminhoSelecionado.push(idDoNo);
                     noClicado.addClass('selecionado');
+                }
+                else{ //apaga tudo que vem depois do nó clicado
+                    for(let i = indexNo; i < caminhoSelecionado.length; i++){
+                        let idParaRemover = caminhoSelecionado[i];
+                        cy.getElementById(idParaRemover).removeClass('selecionado');
+
+                        if (i > 0) {
+                            let idAnterior = caminhoSelecionado[i - 1];
+                            let arestaParaRemover = cy.edges(`[source = "${idAnterior}"][target = "${idParaRemover}"], [source = "${idParaRemover}"][target = "${idAnterior}"]`);
+                            arestaParaRemover.removeClass('selecionado');
+                        }
+                    }
+
+                    caminhoSelecionado = caminhoSelecionado.slice(0, indexNo); //mantém apenas os nós até o nó clicado
+                }
+
+                if  (caminhoSelecionado.length > 0){
                     document.getElementById('caminho-texto').innerText = caminhoSelecionado.join(" ➔ ");
+                } else {
+                    document.getElementById('caminho-texto').innerText = "Nenhum nó selecionado";
                 }
             });
         }
