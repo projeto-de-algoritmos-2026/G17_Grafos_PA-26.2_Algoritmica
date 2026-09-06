@@ -7,30 +7,7 @@ let caminhoSelecionado = [];
             const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
 
             const resposta = await fetch("http://127.0.0.1:8000/api/grafo?dificuldade=${nivelDificuldade}");
-            const dados = await resposta.json();
-            let nosDoGrafo =[];
-            if (nivelDificuldade === 'dificil') {
-                nosDoGrafo = [
-                    { data: { id: 'A' }, position: { x: 50, y: 200 } },
-                    { data: { id: 'B' }, position: { x: 200, y: 100 } },
-                    { data: { id: 'C' }, position: { x: 200, y: 300 } },
-                    { data: { id: 'E' }, position: { x: 350, y: 100 } }, // Nó extra
-                    { data: { id: 'F' }, position: { x: 350, y: 300 } }, // Nó extra
-                    { data: { id: 'D' }, position: { x: 500, y: 200 } }  // Destino continua sendo D
-                ];
-
-            } else {
-                nosDoGrafo = [
-                    { data: { id: 'A' }, position: { x: 80, y: 200 } },
-                    { data: { id: 'B' }, position: { x: 250, y: 100 } },
-                    { data: { id: 'C' }, position: { x: 250, y: 300 } },
-                    { data: { id: 'D' }, position: { x: 500, y: 200 } }
-                ];
-            }
-            const elementos = {
-                nodes: nosDoGrafo,
-                edges: dados.edges
-            };
+            const elementos = await resposta.json();
 
             cy = cytoscape({
                 container: document.getElementById('cy'),
@@ -140,16 +117,21 @@ let caminhoSelecionado = [];
         }
 
         async function enviarPalpite() {
-            if (caminhoSelecionado.length < 2 || caminhoSelecionado[0] !== "A" 
-            || caminhoSelecionado[caminhoSelecionado.length - 1] !== "D") {
-                alert("O caminho deve começar em A e terminar em D!");
+            if (caminhoSelecionado.length < 2 || caminhoSelecionado[0] !== "S" 
+            || caminhoSelecionado[caminhoSelecionado.length - 1] !== "T") {
+                alert("O caminho deve começar em S e terminar em T!");
                 return;
             }
+            const urlParams = new URLSearchParams(window.location.search);
+            const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
 
             const resposta = await fetch("http://127.0.0.1:8000/api/dijkstra", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ caminho: caminhoSelecionado })
+                body: JSON.stringify({
+                    caminho: caminhoSelecionado,
+                    dificuldade: nivelDificuldade
+                })
             });
 
             const resultado = await resposta.json();
