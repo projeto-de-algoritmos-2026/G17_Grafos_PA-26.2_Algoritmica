@@ -6,7 +6,7 @@ let caminhoSelecionado = [];
             const urlParams = new URLSearchParams(window.location.search);
             const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
 
-            const resposta = await fetch("http://127.0.0.1:8000/api/grafo?dificuldade=${nivelDificuldade}");
+            const resposta = await fetch(`http://127.0.0.1:8000/api/grafo?dificuldade=${nivelDificuldade}`);
             const elementos = await resposta.json();
 
             cy = cytoscape({
@@ -48,7 +48,6 @@ let caminhoSelecionado = [];
                 boxSelectionEnabled: false
             });
 
-            cy.ready(() => { cy.fit(cy.elements(), 40); cy.center(); });
             cyGabarito.ready(() => { cyGabarito.fit(cyGabarito.elements(), 40); cyGabarito.center(); });
 
             cy.ready(() => {
@@ -62,43 +61,47 @@ let caminhoSelecionado = [];
                 let idDoNo = noClicado.id();
                 let indexNo = caminhoSelecionado.indexOf(idDoNo);
 
-                if (indexNo === -1) {
-                    if (caminhoSelecionado.length > 0) {
-                        let ultimoNo = caminhoSelecionado[caminhoSelecionado.length - 1];
-                        let aresta = cy.edges(`[source = "${ultimoNo}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${ultimoNo}"]`);
-                        aresta.addClass('selecionado');
+                if (indexNo === -1) { //nó desligado
+                    let ultimoNo = caminhoSelecionado[caminhoSelecionado.length - 1];
+                    
+                    let aresta = cy.edges(`[source = "${ultimoNo}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${ultimoNo}"]`);
+
+                    if (aresta.length > 0) {
+                        aresta.addClass('selecionado'); //pinta e adiciona
+                        caminhoSelecionado.push(idDoNo);
+                        noClicado.addClass('selecionado');
+                    } else {
+                        console.log("Movimento inválido: Nó desconectado da rota atual."); //ignora o clique
                     }
-                    caminhoSelecionado.push(idDoNo);
-                    noClicado.addClass('selecionado');
                 }
-                else{ //apaga tudo que vem depois do nó clicado
-                    for(let i = indexNo; i < caminhoSelecionado.length; i++){
+                else {//nó ligado
+                    if (idDoNo === "S") {
+                        return;
+                    }
+                    for(let i = indexNo; i < caminhoSelecionado.length; i++) {
                         let idParaRemover = caminhoSelecionado[i];
                         cy.getElementById(idParaRemover).removeClass('selecionado');
-
-                        if (i > 0) {
-                            let idAnterior = caminhoSelecionado[i - 1];
-                            let arestaParaRemover = cy.edges(`[source = "${idAnterior}"][target = "${idParaRemover}"], [source = "${idParaRemover}"][target = "${idAnterior}"]`);
-                            arestaParaRemover.removeClass('selecionado');
-                        }
+                        let idAnterior = caminhoSelecionado[i - 1];
+                        let arestaParaRemover = cy.edges(`[source = "${idAnterior}"][target = "${idParaRemover}"], [source = "${idParaRemover}"][target = "${idAnterior}"]`);
+                        arestaParaRemover.removeClass('selecionado');
                     }
-
-                    caminhoSelecionado = caminhoSelecionado.slice(0, indexNo); //mantém apenas os nós até o nó clicado
+                caminhoSelecionado = caminhoSelecionado.slice(0, indexNo);
                 }
-
-                if  (caminhoSelecionado.length > 0){
-                    document.getElementById('caminho-texto').innerText = caminhoSelecionado.join(" ➔ ");
-                } else {
-                    document.getElementById('caminho-texto').innerText = "Nenhum nó selecionado";
-                }
+                document.getElementById('caminho-texto').innerText = caminhoSelecionado.join(" ➔ ");
             });
+            
+            limparSelecao();
         }
 
         function limparSelecao() {
-            caminhoSelecionado = [];
+            caminhoSelecionado = ['S'];
             cy.nodes().removeClass('selecionado');
             cy.edges().removeClass('selecionado');
+
+            cy.getElementById('S').addClass('selecionado');
             document.getElementById('caixa-gabarito').style.display = 'none';
+            cyGabarito.nodes().removeClass('gabarito');
+            cyGabarito.edges().removeClass('gabarito');
 
             document.getElementById('caminho-texto').innerText = "Nenhum nó selecionado";
             document.getElementById('resultado').innerText = "";

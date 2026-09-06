@@ -15,19 +15,11 @@ def calcular_score_dijkstra(grafo_json, caminho_usuario):
         adjacencias[origem][destino] = peso
         adjacencias[destino][origem] = peso
 
-    #mandou menos de 2 nós, não é um caminho válido
-    if len(caminho_usuario) < 2:
-        return {"mensagem": "Caminho muito curto!", "score": 0}
+
 
     no_inicio = caminho_usuario[0]
     no_destino = caminho_usuario[-1]
 
-    if no_inicio != "S" or no_destino != "T":
-        return {
-            "mensagem": "O caminho deve começar em S e terminar em T.",
-            "score": 0,
-            "caminho_otimo": []
-        }
 
     #calcula o custo do caminho escolhido
     custo_usuario = 0
