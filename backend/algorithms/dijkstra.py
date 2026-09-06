@@ -48,6 +48,7 @@ def calcular_score_dijkstra(grafo_json, caminho_usuario):
     #Gabarito com Dijkstra
     #fila de prioridade (heapq) para explorar sempre o caminho mais barato primeiro
     distancias = {no: float('inf') for no in adjacencias}
+    predecessores = {no: None for no in adjacencias}
     distancias[no_inicio] = 0
     fila_prioridade = [(0, no_inicio)]
     
@@ -64,9 +65,17 @@ def calcular_score_dijkstra(grafo_json, caminho_usuario):
             novo_custo = custo_atual + peso
             if novo_custo < distancias[vizinho]:
                 distancias[vizinho] = novo_custo
+                predecessores[vizinho] = no_atual
                 heapq.heappush(fila_prioridade, (novo_custo, vizinho))
 
     custo_otimo = distancias[no_destino]
+
+    caminho_otimo = []
+    passo_atual = no_destino
+    while passo_atual is not None:
+        caminho_otimo.insert(0, passo_atual)
+        passo_atual = predecessores.get(passo_atual)
+        
 
     #compara os dois e calcula a % de acerto
     if custo_usuario == custo_otimo:
@@ -79,5 +88,6 @@ def calcular_score_dijkstra(grafo_json, caminho_usuario):
 
     return {
         "mensagem": mensagem,
-        "score": score
+        "score": score,
+        "caminho_otimo": caminho_otimo
     }

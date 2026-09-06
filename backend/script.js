@@ -22,7 +22,9 @@ let cy;
                     { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
     
                     { selector: 'node.selecionado', style: {'background-color': '#28a745', 'transition-property': 'background-color', 'transition-duration': '0.3s'} },
-                    { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } }
+                    { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } },
+                    { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'transition-property': 'background-color', 'transition-duration': '0.3s' } },
+                    { selector: 'edge.gabarito', style: { 'line-color': '#ffc107', 'width': 8, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } }
                 ],
                 layout: {
                     name: 'preset',
@@ -103,6 +105,35 @@ let cy;
 
             const resultado = await resposta.json();
             document.getElementById('resultado').innerText = `Score: ${resultado.score}% - ${resultado.mensagem}`;
+
+            //roda animacao do gabarito
+            if(resultado.caminho_otimo) {
+                animarGabarito(resultado.caminho_otimo);
+            }
         }
 
+        function animarGabarito(caminhoOtimo) {
+            console.log("Caminho do Gabarito recebido:", caminhoOtimo); // Para te ajudar a depurar no F12 do navegador!
+            let passo = 0;
+
+            function proximoPasso() {
+                if (passo < caminhoOtimo.length) {
+                    let idDoNo = caminhoOtimo[passo];
+                    let no = cy.$('#' + idDoNo);
+
+                    no.removeClass('selecionado');
+                    no.addClass('gabarito'); //colore o nó
+
+                    if(passo > 0) {
+                        let idAnterior = caminhoOtimo[passo - 1];
+                        let aresta = cy.edges(`[source = "${idAnterior}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${idAnterior}"]`);
+                        aresta.removeClass('selecionado');
+                        aresta.addClass('gabarito'); //colore a aresta
+                    }
+                    passo++;
+                    setTimeout(proximoPasso, 800); //a cada 0,8segs roda o proximo passo
+                }
+            }
+            proximoPasso();
+        }
         carregarJogo();
