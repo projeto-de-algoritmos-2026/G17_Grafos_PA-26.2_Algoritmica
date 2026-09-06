@@ -8,18 +8,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Testando Dijkstra</h1>
+    <h1>Dijkstra</h1>
     <h2>Encontre a rota com o <b>menor custo</b> saindo de <b>A</b> até <b>D</b>.</h2>
     <p>Clique nos nós na ordem do seu caminho:</p>
     
-    <div id="cy"></div>
+    <div class="container-grafos">
+        <div class="caixa-grafo">
+            <h3>Sua Resposta</h3>
+            <div id="cy"></div>
+        </div>
+        <div class="caixa-grafo" id="caixa-gabarito" style="display: none;">
+            <h3>Solução Ótima</h3>
+            <div id="cy-gabarito"></div>
+        </div>
+    </div>
 
     <div class="painel">
         <p>Seu caminho atual:<span id="caminho-texto">Nenhum nó selecionado</span></p>
         <button class="limpar" onclick="limparSelecao()">Limpar Caminho</button>
+        <button class="resetar" onclick="resetarJogo()">Reiniciar Rodada</button>
         <button onclick="enviarPalpite()">Enviar Resposta</button>
         <h2 id="resultado"></h2>
     </div>
+    
     <script src="\backend\script.js"></script>
 </body>
 </html>

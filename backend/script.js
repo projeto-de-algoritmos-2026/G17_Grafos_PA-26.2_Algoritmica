@@ -1,5 +1,6 @@
 let cy;
-        let caminhoSelecionado = [];
+let cyGabarito;
+let caminhoSelecionado = [];
         
         async function carregarJogo() {
             const resposta = await fetch("http://127.0.0.1:8000/api/grafo");
@@ -22,7 +23,9 @@ let cy;
                     { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
     
                     { selector: 'node.selecionado', style: {'background-color': '#28a745', 'transition-property': 'background-color', 'transition-duration': '0.3s'} },
-                    { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } }
+                    { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } },
+                    { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'transition-property': 'background-color', 'transition-duration': '0.3s' } },
+                    { selector: 'edge.gabarito', style: { 'line-color': '#ffc107', 'width': 8, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } }
                 ],
                 layout: {
                     name: 'preset',
@@ -34,6 +37,25 @@ let cy;
                 autoungrabify: true, //impede arrastar os nós
                 boxSelectionEnabled: false
             });
+
+            cyGabarito = cytoscape({
+                container: document.getElementById('cy-gabarito'),
+                elements: JSON.parse(JSON.stringify(elementos)), 
+                style: [
+                    { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
+                    { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
+                    { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'border-width': 4, 'border-color': '#d39e00', 'transition-property': 'background-color, border-width', 'transition-duration': '0.4s' } },
+                    { selector: 'edge.gabarito', style: { 'line-color': '#ffc107', 'width': 8, 'transition-property': 'line-color, width', 'transition-duration': '0.4s' } }
+                ],
+                layout: { name: 'preset', fit: false },
+                userZoomingEnabled: false,
+                userPanningEnabled: false,
+                autoungrabify: true,
+                boxSelectionEnabled: false
+            });
+
+            cy.ready(() => { cy.fit(cy.elements(), 40); cy.center(); });
+            cyGabarito.ready(() => { cyGabarito.fit(cyGabarito.elements(), 40); cyGabarito.center(); });
 
             cy.ready(() => {
                 cy.resize();
@@ -81,11 +103,23 @@ let cy;
         function limparSelecao() {
             caminhoSelecionado = [];
             cy.nodes().removeClass('selecionado');
-
             cy.edges().removeClass('selecionado');
+            document.getElementById('caixa-gabarito').style.display = 'none';
+
+            cy.nodes().removeClass('gabarito');
+            cy.edges().removeClass('gabarito');
 
             document.getElementById('caminho-texto').innerText = "Nenhum nó selecionado";
             document.getElementById('resultado').innerText = "";
+
+            cy.resize();
+            cy.fit(cy.elements(), 40);
+            cy.center();
+        }
+
+        function resetarJogo() {
+            limparSelecao();
+            carregarJogo();
         }
 
         async function enviarPalpite() {
@@ -103,6 +137,44 @@ let cy;
 
             const resultado = await resposta.json();
             document.getElementById('resultado').innerText = `Score: ${resultado.score}% - ${resultado.mensagem}`;
+
+            //roda animacao do gabarito
+            if(resultado.caminho_otimo) {
+                document.getElementById('caixa-gabarito').style.display = 'block';
+
+                cyGabarito.resize();
+                cyGabarito.fit(cyGabarito.elements(), 40);
+                cyGabarito.center();
+
+                cy.resize();
+                cy.fit(cy.elements(), 40);
+                cy.center();
+
+                animarGabarito(resultado.caminho_otimo);
+            }
         }
 
+        function animarGabarito(caminhoOtimo) {
+            cyGabarito.nodes().removeClass('gabarito');
+            cyGabarito.edges().removeClass('gabarito');
+            let passo = 0;
+
+            function proximoPasso() {
+                if (passo < caminhoOtimo.length) {
+                    let idDoNo = caminhoOtimo[passo];
+                    
+                    let no = cyGabarito.getElementById(idDoNo);
+                    no.addClass('gabarito'); //colore o nó
+
+                    if(passo > 0) {
+                        let idAnterior = caminhoOtimo[passo - 1];
+                        let aresta = cyGabarito.edges(`[source = "${idAnterior}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${idAnterior}"]`);
+                        aresta.addClass('gabarito'); //colore a aresta
+                    }
+                    passo++;
+                    setTimeout(proximoPasso, 800); //a cada 0,8segs roda o proximo passo
+                }
+            }
+            proximoPasso();
+        }
         carregarJogo();
