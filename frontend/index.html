@@ -10,7 +10,7 @@
 <body>
     <h1>Dijkstra</h1>
     <h2>Encontre a rota com o <b>menor custo</b> saindo de <b>A</b> até <b>D</b>.</h2>
-    <p>Clique nos nós na ordem do seu caminho:</p>
+    <h3>Clique nos nós na ordem do seu caminho (comece clicando em A):</h3>
     
     <div class="container-grafos">
         <div class="caixa-grafo">
@@ -18,16 +18,16 @@
             <div id="cy"></div>
         </div>
         <div class="caixa-grafo" id="caixa-gabarito" style="display: none;">
-            <h3>Solução Ótima</h3>
+            <h3>Dijkstra</h3>
             <div id="cy-gabarito"></div>
         </div>
     </div>
 
     <div class="painel">
         <p>Seu caminho atual:<span id="caminho-texto">Nenhum nó selecionado</span></p>
-        <button class="limpar" onclick="limparSelecao()">Limpar Caminho</button>
-        <button class="resetar" onclick="resetarJogo()">Reiniciar Rodada</button>
-        <button onclick="enviarPalpite()">Enviar Resposta</button>
+        <button id="btn-limpar" class="limpar" onclick="limparSelecao()">Limpar Caminho</button>
+        <button id="btn-reiniciar" class="resetar" onclick="resetarJogo()" style="display: none; background-color: #17a2b8">Reiniciar Rodada</button>
+        <button id="btn-enviar" onclick="enviarPalpite()">Enviar Resposta</button>
         <h2 id="resultado"></h2>
     </div>
     

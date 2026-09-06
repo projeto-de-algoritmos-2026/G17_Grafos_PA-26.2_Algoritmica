@@ -106,15 +106,15 @@ let caminhoSelecionado = [];
             cy.edges().removeClass('selecionado');
             document.getElementById('caixa-gabarito').style.display = 'none';
 
-            cy.nodes().removeClass('gabarito');
-            cy.edges().removeClass('gabarito');
-
             document.getElementById('caminho-texto').innerText = "Nenhum nó selecionado";
             document.getElementById('resultado').innerText = "";
 
             cy.resize();
             cy.fit(cy.elements(), 40);
             cy.center();
+            document.getElementById('btn-reiniciar').style.display = 'none';
+            document.getElementById('btn-enviar').style.display = 'inline-block';
+            document.getElementById('btn-limpar').style.display = 'inline-block';
         }
 
         function resetarJogo() {
@@ -151,6 +151,10 @@ let caminhoSelecionado = [];
                 cy.center();
 
                 animarGabarito(resultado.caminho_otimo);
+
+                document.getElementById('btn-reiniciar').style.display = 'inline-block';
+                document.getElementById('btn-enviar').style.display = 'none';
+                document.getElementById('btn-limpar').style.display = 'none';
             }
         }
 
