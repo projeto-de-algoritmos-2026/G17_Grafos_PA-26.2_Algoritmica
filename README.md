@@ -9,10 +9,50 @@ Número da Lista: 17<br>
 | 251019771 | Daniel Filipe Borges de Oliveira |
 
 ## Sobre
-O Algoritmica é uma **ferramenta educacional interativa** desenvolvida para ensinar algoritmos de grafos na prática, no formato de minigames. O usuário interage com uma interface visual, selecionando nós e caminhos, e o sistema avalia suas escolhas comparando-as com a solução ótima gerada pelos algoritmos clássicos.
+O Algoritmica é uma **ferramenta educacional interativa** desenvolvida para ensinar algoritmos de grafos na prática, no formato de **minigames**. O usuário interage com uma interface visual, selecionando nós e caminhos, e o sistema avalia suas escolhas comparando-as com a solução ótima gerada pelos **algoritmos** clássicos.
 
+- Atualmente Implementados: Dijkstra
 
 ## Screenshots
+
+<table align="center">
+  <!-- LINHA 1 -->
+  <tr>
+    <td align="center">
+      <b>1. Dijkstra</b><br>
+      <img src="assets/1imagemDijkstraInicial.png" width="400">
+    </td>
+    <td align="center">
+      <b>2. Seleção de Caminho(Dijkstra)</b><br>
+      <img src="assets/2imagemDijkstraPalpite.png" width="400">
+    </td>
+  </tr>
+  
+  <!-- LINHA 2 -->
+  <tr>
+    <td align="center">
+      <b>3. Exibindo Gabarito(Dijkstra)</b><br>
+      <img src="assets/3imagemDijkstraGabarito.png" width="400">
+    </td>
+    <td align="center">
+      <b>4. Algoritmo 2</b><br>
+      <img src="assets/tela4.png" width="400">
+    </td>
+  </tr>
+  
+  <!-- LINHA 3 -->
+  <tr>
+    <td align="center">
+      <b>5. Seleção de Caminho(Algoritmo 2)</b><br>
+      <img src="assets/tela5.png" width="400">
+    </td>
+    <td align="center">
+      <b>6. Exibindo Gabarito(Algoritmo 2)</b><br>
+      <img src="assets/tela6.png" width="400">
+    </td>
+  </tr>
+</table>
+
 
 
 ## Instalação
@@ -46,17 +86,34 @@ Siga o passo a passo abaixo para rodar a aplicação no seu ambiente local.
 git clone [https://github.com/projeto-de-algoritmos-2026/G17_Grafos_PA-26.2_Algoritmica]
 ```
 
-**2. Entre na pasta backend do projeto, instale as dependências e ligue o servidor (verifique se todos os comandos são executados sem erros no seu terminal):**
+**2. Entre na pasta backend do projeto e crie o ambiente virtual(venv):** 
 ```bash
 cd .\backend\ #vai para o diretório backend
 
+python -m venv venv #cria o ambiente virtual
+```
+
+**3. Ative o ambiente virtual:**
+
+Windows:
+```bash
+.\venv\Scripts\activate
+```
+
+Linux/Mac:
+```bash
+source venv/bin/activate
+```
+
+**4. Instale as dependências e ligue o servidor (verifique se todos os comandos são executados sem erros no seu terminal):**
+```bash
 pip install -r requirements.txt #instala as bibliotecas necessárias
 
 uvicorn app:algoritmica --reload #liga o servidor
 ```
 
 ## Uso
-**1. Certifique-se de que o servidor back-end está rodando (passo 2 da instalação).**
+**1. Certifique-se de que o servidor back-end está rodando (passo 4 da instalação).**
 
 **2. Vá até a pasta raiz/front-end do projeto e abra o arquivo index.html no seu navegador de preferência.**
 
