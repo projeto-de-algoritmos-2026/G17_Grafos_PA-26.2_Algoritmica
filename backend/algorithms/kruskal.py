@@ -1,82 +1,97 @@
-import heapq
+class UnionFind:
 
-def calcular_score_dijkstra(grafo_json, caminho_usuario):
-    # JSON para uma adjacência simples
-    # Ex: {'A': {'B': 5, 'C': 2}, 'B': {'D': 4}, ...}
-    listaAdjacencias = {}
-    for vertice in grafo_json["nodes"]:
-        listaAdjacencias[vertice["data"]["id"]] = {}
+    def __init__(self, vertices):
+        self.parent = {v: v for v in vertices}
+        self.rank = {v: 0 for v in vertices}
+
+    def find(self, item):
+        if self.parent[item] == item:
+            return item
+        self.parent[item] = self.find(self.parent[item])
+        return self.parent[item]
+
+    def union(self, x, y):
+        xroot = self.find(x)
+        yroot = self.find(y)
+
+        if xroot == yroot:
+            return False
+
+        if self.rank[xroot] < self.rank[yroot]:
+            self.parent[xroot] = yroot
+        elif self.rank[xroot] > self.rank[yroot]:
+            self.parent[yroot] = xroot
+        else:
+            self.parent[yroot] = xroot
+            self.rank[xroot] += 1
+
+        return True
+
+
+def calcular_score_kruskal(grafo_json, arestas_usuario):
+    vertices = [no["data"]["id"] for no in grafo_json["nodes"]]
+    todas_arestas = []
+    mapa_arestas = {}
 
     for aresta in grafo_json["edges"]:
-        origem = aresta["data"]["source"]
-        destino = aresta["data"]["target"]
-        peso = aresta["data"]["weight"]
+        dados = aresta["data"]
+        obj_aresta = {
+            "id": dados.get("id"),
+            "origem": dados["source"],
+            "destino": dados["target"],
+            "peso": dados["weight"]
+        }
+        todas_arestas.append(obj_aresta)
+        mapa_arestas[dados.get("id")] = obj_aresta
 
-        listaAdjacencias[origem][destino] = peso
-        listaAdjacencias[destino][origem] = peso
+    numero_vertices = len(vertices)
 
-    no_inicio = caminho_usuario[0]
-    no_destino = caminho_usuario[-1]
 
-    # calcula o custo do caminho escolhido
+    if len(arestas_usuario) != numero_vertices - 1:
+        return {
+            "mensagem": f"Inválido! Uma Árvore Geradora para {numero_vertices} nós deve ter exatamente {numero_vertices - 1} arestas.",
+            "score": 0
+        }
+
     custo_usuario = 0
-    caminho_valido = True
+    uf_usuario = UnionFind(vertices)
 
-    for i in range(len(caminho_usuario) - 1):
-        atual = caminho_usuario[i]
-        proximo = caminho_usuario[i + 1]
+    for id_aresta in arestas_usuario:
+        if id_aresta not in mapa_arestas:
+            return {"mensagem": "Erro: Aresta inválida selecionada.", "score": 0}
 
-        if proximo in listaAdjacencias[atual]:
-            custo_usuario += listaAdjacencias[atual][proximo]
-        else:
-            caminho_valido = False  # caminho sem aresta conectando
-            break
+        aresta = mapa_arestas[id_aresta]
+        custo_usuario += aresta["peso"]
 
-    if not caminho_valido:
-        return {"mensagem": "Caminho inválido! Você selecionou nós que não estão conectados.", "score": 0}
+        if not uf_usuario.union(aresta["origem"], aresta["destino"]):
+            return {
+                "mensagem": "Caminho inválido! Você fechou um ciclo (loop) entre os nós.",
+                "score": 0
+            }
 
-    # Gabarito com Dijkstra
-    # fila de prioridade (heapq) para explorar sempre o caminho mais barato primeiro
-    distancias = {no: float('inf') for no in listaAdjacencias}
-    predecessores = {no: None for no in listaAdjacencias}
-    distancias[no_inicio] = 0
-    fila_prioridade = [(0, no_inicio)]
+    todas_arestas.sort(key=lambda x: x["peso"])
 
-    while fila_prioridade:
-        custo_atual, no_atual = heapq.heappop(fila_prioridade)
+    uf_gabarito = UnionFind(vertices)
+    custo_otimo = 0
+    arestas_otimas = []
 
-        if custo_atual > distancias[no_atual]:
-            continue
+    for aresta in todas_arestas:
+        if uf_gabarito.union(aresta["origem"], aresta["destino"]):
+            custo_otimo += aresta["peso"]
+            arestas_otimas.append(aresta["id"])
 
-        if no_atual == no_destino:
-            break  # achou o menor caminho
+            if len(arestas_otimas) == numero_vertices - 1:
+                break
 
-        for vizinho, peso in listaAdjacencias[no_atual].items():
-            novo_custo = custo_atual + peso
-            if novo_custo < distancias[vizinho]:
-                distancias[vizinho] = novo_custo
-                predecessores[vizinho] = no_atual
-                heapq.heappush(fila_prioridade, (novo_custo, vizinho))
-
-    custo_otimo = distancias[no_destino]
-
-    caminho_otimo = []
-    passo_atual = no_destino
-    while passo_atual is not None:
-        caminho_otimo.insert(0, passo_atual)
-        passo_atual = predecessores.get(passo_atual)
-
-    # compara os dois e calcula a % de acerto
     if custo_usuario == custo_otimo:
         score = 100
-        mensagem = f"Perfeito! Você achou o caminho ótimo. Custo total: {custo_usuario}"
+        mensagem = f"Perfeito! Você encontrou a Árvore Geradora Mínima. Custo total: {custo_usuario}"
     else:
-        # fórmula da %: custo ótimo / custo do usuário
         score = int((custo_otimo / custo_usuario) * 100)
-        mensagem = f"Seu caminho custou {custo_usuario}, mas existia um caminho mais barato (Custo: {custo_otimo})."
+        mensagem = f"Sua árvore custou {custo_usuario}, mas existia uma configuração mais barata (Custo: {custo_otimo})."
 
     return {
         "mensagem": mensagem,
         "score": score,
-        "caminho_otimo": caminho_otimo
+        "arestas_otimas": arestas_otimas
     }

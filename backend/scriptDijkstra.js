@@ -90,10 +90,10 @@ let caminhoSelecionado = [];
                 document.getElementById('caminho-texto').innerText = caminhoSelecionado.join(" ➔ ");
             });
             
-            limparSelecao();
+            limparCaminho();
         }
 
-        function limparSelecao() {
+        function limparCaminho() {
             caminhoSelecionado = ['S'];
             cy.nodes().removeClass('selecionado');
             cy.edges().removeClass('selecionado');
@@ -115,7 +115,7 @@ let caminhoSelecionado = [];
         }
 
         function resetarJogo() {
-            limparSelecao();
+            limparCaminho();
             carregarJogo();
         }
 
@@ -183,4 +183,5 @@ let caminhoSelecionado = [];
             }
             proximoPasso();
         }
+
         carregarJogo();
