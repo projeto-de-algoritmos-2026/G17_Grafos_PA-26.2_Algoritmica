@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dijkstra</title>
+    <title>Kruskal</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Dijkstra</h1>
-    <h2>Encontre a rota com o <b>menor custo</b> saindo de <b>S</b> até <b>T</b>.</h2>
+    <h1>Kruskal</h1>
+    <h2>Encontre o menor caminho que conecte todos os vértices!</h2>
     <h3>Clique nos nós na ordem do seu caminho (comece clicando em S):</h3>
-    
+
     <div class="container-grafos">
         <div class="caixa-grafo">
             <h3>Sua Resposta</h3>
             <div id="cy"></div>
         </div>
         <div class="caixa-grafo" id="caixa-gabarito" style="display: none;">
-            <h3>Dijkstra</h3>
+            <h3>Kruskal</h3>
             <div id="cy-gabarito"></div>
         </div>
     </div>
@@ -30,7 +30,8 @@
         <button id="btn-enviar" onclick="enviarPalpite()">Enviar Resposta</button>
         <h2 id="resultado"></h2>
     </div>
-    
-    <script src="/backend/scriptDijkstra.js"></script>
+
+    <script src="/backend/scriptKruskal.js"></script>
+
 </body>
 </html>

@@ -11,6 +11,7 @@ algoritmica.add_middleware(
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials = True,
 )
 
 class Palpite(BaseModel):
@@ -18,7 +19,7 @@ class Palpite(BaseModel):
     dificuldade: str = "facil"
 
 @algoritmica.get("/api/grafo")
-def pegar_grafo(dificuldade: str = "facil"):
+def pegar_grafo(dificuldade: str = "facil", jogoEscolhido: str = "dijkstra"):
     if dificuldade == "dificil":
         return GRAFO_DIFICIL
     return GRAFO_FACIL
