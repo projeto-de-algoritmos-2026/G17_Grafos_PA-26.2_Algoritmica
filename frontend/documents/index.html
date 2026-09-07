@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algoritmica</title>
     <!-- coloquei script dentro do html por ser curto -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body class="body-menu">
 
     <div class="menu-card">
-        <h1>algoritmica</h1>
+        <h1>Algoritmica</h1>
         <p>Um ambiente para testar sua capacidade de analisar rotas e conexões. Este é um jogo simples para ver quão bom você é em Grafos.</p>
         <p>Mostraremos um mapa, e você tentará encontrar a solução ótima.</p>
 
@@ -40,16 +40,7 @@
         function sortearEIniciar() {
             const isDificil = document.getElementById('toggle-dificuldade').checked;
             const dificuldade = isDificil ? 'dificil' : 'facil';
-            
-            const jogos = ['dijkstra', 'kruskal'];
-            
-            const indiceSorteado = Math.floor(Math.random() * jogos.length);
-            let jogoEscolhido = jogos[indiceSorteado];
-
-            //qnd terminar kruskal apaga essa linha
-            jogoEscolhido = 'dijkstra'; 
-
-            window.location.href = jogoEscolhido + '.html?dificuldade=' + dificuldade;
+            window.location.href = 'dijkstra.html?dificuldade=' + dificuldade;
         }
     </script>
 </body>
