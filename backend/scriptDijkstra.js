@@ -6,6 +6,7 @@ let caminhoSelecionado = [];
             const urlParams = new URLSearchParams(window.location.search);
             const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
 
+
             const resposta = await fetch(`http://127.0.0.1:8000/api/grafo?dificuldade=${nivelDificuldade}`);
             const elementos = await resposta.json();
 

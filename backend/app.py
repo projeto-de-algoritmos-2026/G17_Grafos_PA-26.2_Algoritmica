@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from algorithms.dijkstra import calcular_score_dijkstra
+from algorithms.kruskal import calcular_score_kruskal
 from graphs.templatesGrafos import GRAFO_FACIL, GRAFO_DIFICIL
 algoritmica = FastAPI()
 
@@ -28,4 +29,10 @@ def pegar_grafo(dificuldade: str = "facil", jogoEscolhido: str = "dijkstra"):
 def validar_dijkstra(palpite: Palpite):
     grafo_atual = GRAFO_DIFICIL if palpite.dificuldade == "dificil" else GRAFO_FACIL
     resultado = calcular_score_dijkstra(grafo_atual, palpite.caminho)
+    return resultado
+
+@algoritmica.post("/api/kruskal")
+def validar_kruskal(palpite: Palpite):
+    grafo_atual = GRAFO_DIFICIL if palpite.dificuldade == "dificil" else GRAFO_FACIL
+    resultado = calcular_score_kruskal(grafo_atual, palpite.caminho)
     return resultado
