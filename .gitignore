@@ -1,11 +1,6 @@
-# flask
-venv/
+.venv
 env/
 __pycache__/
 *.pyc
 .env
-
-# react/vite
-node_modules/
-dist/
-.eslintcache
+.idea
