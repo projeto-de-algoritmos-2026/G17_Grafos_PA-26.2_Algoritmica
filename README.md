@@ -109,7 +109,7 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt #instala as bibliotecas necessárias
 
-uvicorn app:algoritmica --reload #liga o servidor
+python app.py #inicia a aplicação e liga o servidor
 ```
 
 ## Uso

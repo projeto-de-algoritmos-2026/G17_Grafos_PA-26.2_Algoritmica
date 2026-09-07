@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from algorithms.dijkstra import calcular_score_dijkstra
-from algorithms.kruskal import calcular_score_kruskal
+# from algorithms.kruskal import calcular_score_kruskal
 from graphs.templatesGrafos import GRAFO_FACIL, GRAFO_DIFICIL
 algoritmica = FastAPI()
 
@@ -36,3 +36,7 @@ def validar_kruskal(palpite: Palpite):
     grafo_atual = GRAFO_DIFICIL if palpite.dificuldade == "dificil" else GRAFO_FACIL
     resultado = calcular_score_kruskal(grafo_atual, palpite.caminho)
     return resultado
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app:algoritmica", host="127.0.0.1", port=8000, reload=True)
