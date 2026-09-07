@@ -112,6 +112,7 @@ let caminhoSelecionado = [];
             document.getElementById('btn-reiniciar').style.display = 'none';
             document.getElementById('btn-enviar').style.display = 'inline-block';
             document.getElementById('btn-limpar').style.display = 'inline-block';
+            document.getElementById('btn-proximo').style.display = 'none';
         }
 
         function resetarJogo() {
@@ -157,6 +158,7 @@ let caminhoSelecionado = [];
                 document.getElementById('btn-reiniciar').style.display = 'inline-block';
                 document.getElementById('btn-enviar').style.display = 'none';
                 document.getElementById('btn-limpar').style.display = 'none';
+                document.getElementById('btn-proximo').style.display = 'inline-block';
             }
         }
 
@@ -185,3 +187,10 @@ let caminhoSelecionado = [];
         }
 
         carregarJogo();
+
+        function irParaKruskal() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
+            window.location.href = 'kruskal.html?dificuldade=' + nivelDificuldade;
+}
+

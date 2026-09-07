@@ -40,13 +40,7 @@
         function sortearEIniciar() {
             const isDificil = document.getElementById('toggle-dificuldade').checked;
             const dificuldade = isDificil ? 'dificil' : 'facil';
-            
-            const jogos = ['dijkstra', 'kruskal'];
-            
-            const indiceSorteado = Math.floor(Math.random() * jogos.length);
-            let jogoEscolhido = jogos[indiceSorteado];
-
-            window.location.href = jogoEscolhido + '.html?dificuldade=' + dificuldade;
+            window.location.href = 'dijkstra.html?dificuldade=' + dificuldade;
         }
     </script>
 </body>
