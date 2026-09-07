@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kruskal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <script src="/frontend/scripts/scriptKruskal.js" defer></script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h1>Kruskal</h1>
+    <h2>Encontre a Árvore Geradora Mínima (conecte todos os vértices com o menor custo)!</h2>
+    <h3>Clique nas ARESTAS para selecioná-las (cuidado para não formar ciclos):</h3>
+
+    <div class="container-grafos">
+        <div class="caixa-grafo">
+            <h3>Sua Resposta</h3>
+            <div id="cy"></div>
+        </div>
+        <div class="caixa-grafo" id="caixa-gabarito" style="display: none;">
+            <h3>Gabarito Kruskal</h3>
+            <div id="cy-gabarito"></div>
+        </div>
+    </div>
+
+    <div class="painel">
+        <p>Progresso: <span id="caminho-texto">Aguardando seleção...</span></p>
+
+        <button id="btn-limpar" class="limpar" onclick="limparCaminho()">Limpar Seleção</button>
+        <button id="btn-reiniciar" class="resetar" onclick="resetarJogo()" style="display: none; background-color: #17a2b8">Reiniciar Rodada</button>
+        <button id="btn-enviar" onclick="enviarPalpite()">Enviar Resposta</button>
+
+        <h2 id="resultado"></h2>
+    </div>
+</body>
+</html>
