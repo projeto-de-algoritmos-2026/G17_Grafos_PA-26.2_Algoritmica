@@ -1,186 +1,178 @@
 let cy;
 let cyGabarito;
-let caminhoSelecionado = [];
-        
-        async function carregarJogo() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
+let arestasSelecionadas = [];
 
-            const resposta = await fetch(`http://127.0.0.1:8000/api/grafo?dificuldade=${nivelDificuldade}`);
-            const elementos = await resposta.json();
+async function carregarJogo() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
 
-            cy = cytoscape({
-                container: document.getElementById('cy'),
-                elements: elementos,
-                style: [
-                    { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
-                    { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
-    
-                    { selector: 'node.selecionado', style: {'background-color': '#28a745', 'transition-property': 'background-color', 'transition-duration': '0.3s'} },
-                    { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } },
-                    { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'transition-property': 'background-color', 'transition-duration': '0.3s' } },
-                    { selector: 'edge.gabarito', style: { 'line-color': '#ffc107', 'width': 8, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } }
-                ],
-                layout: {
-                    name: 'preset',
-                    fit: false
-                },
+    const resposta = await fetch(`http://127.0.0.1:8000/api/grafo?dificuldade=${nivelDificuldade}`);
+    const elementos = await resposta.json();
 
-                userZoomingEnabled: false, //impede zoom in e zoom out
-                userPanningEnabled: false, //impede arrastar a tela
-                autoungrabify: true, //impede arrastar os nós
-                boxSelectionEnabled: false
-            });
+    cy = cytoscape({
+        container: document.getElementById('cy'),
+        elements: elementos,
+        style: [
+            { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
+            { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
+            { selector: 'node.selecionado', style: {'background-color': '#28a745', 'transition-property': 'background-color', 'transition-duration': '0.3s'} },
+            { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.3s' } },
+            { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'transition-property': 'background-color', 'transition-duration': '0.3s' } },
+            { selector: 'edge.gabarito', style: { 'line-color': '#ffc107', 'width': 8, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } }
+        ],
+        layout: { name: 'preset', fit: false },
+        userZoomingEnabled: false,
+        userPanningEnabled: false,
+        autoungrabify: true,
+        boxSelectionEnabled: false
+    });
 
-            cyGabarito = cytoscape({
-                container: document.getElementById('cy-gabarito'),
-                elements: JSON.parse(JSON.stringify(elementos)), 
-                style: [
-                    { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
-                    { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
-                    { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'border-width': 4, 'border-color': '#d39e00', 'transition-property': 'background-color, border-width', 'transition-duration': '0.4s' } },
-                    { selector: 'edge.gabarito', style: { 'line-color': '#ffc107', 'width': 8, 'transition-property': 'line-color, width', 'transition-duration': '0.4s' } }
-                ],
-                layout: { name: 'preset', fit: false },
-                userZoomingEnabled: false,
-                userPanningEnabled: false,
-                autoungrabify: true,
-                boxSelectionEnabled: false
-            });
+    cyGabarito = cytoscape({
+        container: document.getElementById('cy-gabarito'),
+        elements: JSON.parse(JSON.stringify(elementos)),
+        style: [
+            { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
+            { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
+            { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'border-width': 4, 'border-color': '#d39e00', 'transition-property': 'background-color, border-width', 'transition-duration': '0.4s' } },
+            { selector: 'edge.gabarito', style: { 'line-color': '#ffc107', 'width': 8, 'transition-property': 'line-color, width', 'transition-duration': '0.4s' } }
+        ],
+        layout: { name: 'preset', fit: false },
+        userZoomingEnabled: false,
+        userPanningEnabled: false,
+        autoungrabify: true,
+        boxSelectionEnabled: false
+    });
 
-            cyGabarito.ready(() => { cyGabarito.fit(cyGabarito.elements(), 40); cyGabarito.center(); });
+    cyGabarito.ready(() => { cyGabarito.fit(cyGabarito.elements(), 40); cyGabarito.center(); });
 
-            cy.ready(() => {
-                cy.resize();
-                cy.fit(cy.elements(), 40);
-                cy.center();
-            });
+    cy.ready(() => {
+        cy.resize();
+        cy.fit(cy.elements(), 40);
+        cy.center();
+    });
 
-            cy.on('tap', 'node', function(evt){
-                let noClicado = evt.target;
-                let idDoNo = noClicado.id();
-                let indexNo = caminhoSelecionado.indexOf(idDoNo);
+    cy.on('tap', 'edge', function(evt){
+        let arestaClicada = evt.target;
+        let idDaAresta = arestaClicada.id();
+        let indexAresta = arestasSelecionadas.indexOf(idDaAresta);
 
-                if (indexNo === -1) { //nó desligado
-                    let ultimoNo = caminhoSelecionado[caminhoSelecionado.length - 1];
-                    
-                    let aresta = cy.edges(`[source = "${ultimoNo}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${ultimoNo}"]`);
+        if (indexAresta === -1) {
+            arestaClicada.addClass('selecionado');
+            arestasSelecionadas.push(idDaAresta);
 
-                    if (aresta.length > 0) {
-                        aresta.addClass('selecionado'); //pinta e adiciona
-                        caminhoSelecionado.push(idDoNo);
-                        noClicado.addClass('selecionado');
-                    } else {
-                        console.log("Movimento inválido: Nó desconectado da rota atual."); //ignora o clique
-                    }
-                }
-                else {//nó ligado
-                    if (idDoNo === "S") {
-                        return;
-                    }
-                    for(let i = indexNo; i < caminhoSelecionado.length; i++) {
-                        let idParaRemover = caminhoSelecionado[i];
-                        cy.getElementById(idParaRemover).removeClass('selecionado');
-                        let idAnterior = caminhoSelecionado[i - 1];
-                        let arestaParaRemover = cy.edges(`[source = "${idAnterior}"][target = "${idParaRemover}"], [source = "${idParaRemover}"][target = "${idAnterior}"]`);
-                        arestaParaRemover.removeClass('selecionado');
-                    }
-                caminhoSelecionado = caminhoSelecionado.slice(0, indexNo);
-                }
-                document.getElementById('caminho-texto').innerText = caminhoSelecionado.join(" ➔ ");
-            });
-            
-            limparSelecao();
+            arestaClicada.source().addClass('selecionado');
+            arestaClicada.target().addClass('selecionado');
+        } else {
+            arestaClicada.removeClass('selecionado');
+            arestasSelecionadas.splice(indexAresta, 1);
+
+            atualizarCoresDosNos();
         }
 
-        function limparSelecao() {
-            caminhoSelecionado = ['S'];
-            cy.nodes().removeClass('selecionado');
-            cy.edges().removeClass('selecionado');
+        let nosTotais = cy.nodes().length;
+        document.getElementById('caminho-texto').innerText = `Arestas selecionadas: ${arestasSelecionadas.length} / ${nosTotais - 1}`;
+    });
 
-            cy.getElementById('S').addClass('selecionado');
-            document.getElementById('caixa-gabarito').style.display = 'none';
-            cyGabarito.nodes().removeClass('gabarito');
-            cyGabarito.edges().removeClass('gabarito');
+    limparCaminho();
+}
 
-            document.getElementById('caminho-texto').innerText = "Nenhum nó selecionado";
-            document.getElementById('resultado').innerText = "";
+function atualizarCoresDosNos() {
+    cy.nodes().removeClass('selecionado');
+    arestasSelecionadas.forEach(id => {
+        let aresta = cy.getElementById(id);
+        aresta.source().addClass('selecionado');
+        aresta.target().addClass('selecionado');
+    });
+}
 
-            cy.resize();
-            cy.fit(cy.elements(), 40);
-            cy.center();
-            document.getElementById('btn-reiniciar').style.display = 'none';
-            document.getElementById('btn-enviar').style.display = 'inline-block';
-            document.getElementById('btn-limpar').style.display = 'inline-block';
+function limparCaminho() {
+    arestasSelecionadas = [];
+    cy.nodes().removeClass('selecionado');
+    cy.edges().removeClass('selecionado');
+
+    document.getElementById('caixa-gabarito').style.display = 'none';
+    cyGabarito.nodes().removeClass('gabarito');
+    cyGabarito.edges().removeClass('gabarito');
+
+    let nosTotais = cy.nodes().length;
+    document.getElementById('caminho-texto').innerText = `Arestas selecionadas: 0 / ${nosTotais - 1}`;
+    document.getElementById('resultado').innerText = "";
+
+    cy.resize();
+    cy.fit(cy.elements(), 40);
+    cy.center();
+    document.getElementById('btn-reiniciar').style.display = 'none';
+    document.getElementById('btn-enviar').style.display = 'inline-block';
+    document.getElementById('btn-limpar').style.display = 'inline-block';
+}
+
+function resetarJogo() {
+    limparCaminho();
+    carregarJogo();
+}
+
+async function enviarPalpite() {
+    let nosTotais = cy.nodes().length;
+
+    if (arestasSelecionadas.length !== nosTotais - 1) {
+        alert(`Para formar uma Árvore Geradora, você precisa selecionar exatamente ${nosTotais - 1} arestas!`);
+        return;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
+
+    const resposta = await fetch("http://127.0.0.1:8000/api/kruskal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            arestas: arestasSelecionadas, // Envia o array de IDs de arestas
+            dificuldade: nivelDificuldade
+        })
+    });
+
+    const resultado = await resposta.json();
+    document.getElementById('resultado').innerText = `Score: ${resultado.score}% - ${resultado.mensagem}`;
+
+    if(resultado.arestas_otimas) {
+        document.getElementById('caixa-gabarito').style.display = 'block';
+
+        cyGabarito.resize();
+        cyGabarito.fit(cyGabarito.elements(), 40);
+        cyGabarito.center();
+
+        cy.resize();
+        cy.fit(cy.elements(), 40);
+        cy.center();
+
+        animarGabarito(resultado.arestas_otimas);
+
+        document.getElementById('btn-reiniciar').style.display = 'inline-block';
+        document.getElementById('btn-enviar').style.display = 'none';
+        document.getElementById('btn-limpar').style.display = 'none';
+    }
+}
+
+function animarGabarito(arestasOtimas) {
+    cyGabarito.nodes().removeClass('gabarito');
+    cyGabarito.edges().removeClass('gabarito');
+    let passo = 0;
+
+    function proximoPasso() {
+        if (passo < arestasOtimas.length) {
+            let idDaAresta = arestasOtimas[passo];
+
+            let aresta = cyGabarito.getElementById(idDaAresta);
+            aresta.addClass('gabarito');
+
+            aresta.source().addClass('gabarito');
+            aresta.target().addClass('gabarito');
+
+            passo++;
+            setTimeout(proximoPasso, 800);
         }
+    }
+    proximoPasso();
+}
 
-        function resetarJogo() {
-            limparSelecao();
-            carregarJogo();
-        }
-
-        async function enviarPalpite() {
-            if (caminhoSelecionado.length < 2 || caminhoSelecionado[0] !== "S" 
-            || caminhoSelecionado[caminhoSelecionado.length - 1] !== "T") {
-                alert("O caminho deve começar em S e terminar em T!");
-                return;
-            }
-            const urlParams = new URLSearchParams(window.location.search);
-            const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
-
-            const resposta = await fetch("http://127.0.0.1:8000/api/dijkstra", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    caminho: caminhoSelecionado,
-                    dificuldade: nivelDificuldade
-                })
-            });
-
-            const resultado = await resposta.json();
-            document.getElementById('resultado').innerText = `Score: ${resultado.score}% - ${resultado.mensagem}`;
-
-            //roda animacao do gabarito
-            if(resultado.caminho_otimo) {
-                document.getElementById('caixa-gabarito').style.display = 'block';
-
-                cyGabarito.resize();
-                cyGabarito.fit(cyGabarito.elements(), 40);
-                cyGabarito.center();
-
-                cy.resize();
-                cy.fit(cy.elements(), 40);
-                cy.center();
-
-                animarGabarito(resultado.caminho_otimo);
-
-                document.getElementById('btn-reiniciar').style.display = 'inline-block';
-                document.getElementById('btn-enviar').style.display = 'none';
-                document.getElementById('btn-limpar').style.display = 'none';
-            }
-        }
-
-        function animarGabarito(caminhoOtimo) {
-            cyGabarito.nodes().removeClass('gabarito');
-            cyGabarito.edges().removeClass('gabarito');
-            let passo = 0;
-
-            function proximoPasso() {
-                if (passo < caminhoOtimo.length) {
-                    let idDoNo = caminhoOtimo[passo];
-                    
-                    let no = cyGabarito.getElementById(idDoNo);
-                    no.addClass('gabarito'); //colore o nó
-
-                    if(passo > 0) {
-                        let idAnterior = caminhoOtimo[passo - 1];
-                        let aresta = cyGabarito.edges(`[source = "${idAnterior}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${idAnterior}"]`);
-                        aresta.addClass('gabarito'); //colore a aresta
-                    }
-                    passo++;
-                    setTimeout(proximoPasso, 800); //a cada 0,8segs roda o proximo passo
-                }
-            }
-            proximoPasso();
-        }
-        carregarJogo();
+carregarJogo();

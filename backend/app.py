@@ -16,7 +16,8 @@ algoritmica.add_middleware(
 )
 
 class Palpite(BaseModel):
-    caminho: list[str]
+    caminho: list[str] = []
+    arestas: list[str] = []
     dificuldade: str = "facil"
 
 @algoritmica.get("/api/grafo")
@@ -34,7 +35,7 @@ def validar_dijkstra(palpite: Palpite):
 @algoritmica.post("/api/kruskal")
 def validar_kruskal(palpite: Palpite):
     grafo_atual = GRAFO_DIFICIL if palpite.dificuldade == "dificil" else GRAFO_FACIL
-    resultado = calcular_score_kruskal(grafo_atual, palpite.caminho)
+    resultado = calcular_score_kruskal(grafo_atual, palpite.arestas)
     return resultado
 
 if __name__ == "__main__":
