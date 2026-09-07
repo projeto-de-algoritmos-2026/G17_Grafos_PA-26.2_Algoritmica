@@ -1,7 +1,7 @@
 let cy;
 let cyGabarito;
 let caminhoSelecionado = [];
-        
+
         async function carregarJogo() {
             const urlParams = new URLSearchParams(window.location.search);
             const nivelDificuldade = urlParams.get('dificuldade') || 'facil';
@@ -15,7 +15,7 @@ let caminhoSelecionado = [];
                 style: [
                     { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
                     { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
-    
+
                     { selector: 'node.selecionado', style: {'background-color': '#28a745', 'transition-property': 'background-color', 'transition-duration': '0.3s'} },
                     { selector: 'edge.selecionado', style: { 'line-color': '#007bff', 'width': 6, 'transition-property': 'line-color, width', 'transition-duration': '0.5s' } },
                     { selector: 'node.gabarito', style: { 'background-color': '#ffc107', 'transition-property': 'background-color', 'transition-duration': '0.3s' } },
@@ -34,7 +34,7 @@ let caminhoSelecionado = [];
 
             cyGabarito = cytoscape({
                 container: document.getElementById('cy-gabarito'),
-                elements: JSON.parse(JSON.stringify(elementos)), 
+                elements: JSON.parse(JSON.stringify(elementos)),
                 style: [
                     { selector: 'node', style: { 'background-color': '#666', 'label': 'data(id)', 'color': '#fff', 'text-valign': 'center', 'width': 40, 'height': 40 } },
                     { selector: 'edge', style: { 'width': 3, 'line-color': '#ccc', 'label': 'data(weight)', 'font-size': '16px', 'text-rotation': 'autorotate' } },
@@ -63,7 +63,7 @@ let caminhoSelecionado = [];
 
                 if (indexNo === -1) { //nó desligado
                     let ultimoNo = caminhoSelecionado[caminhoSelecionado.length - 1];
-                    
+
                     let aresta = cy.edges(`[source = "${ultimoNo}"][target = "${idDoNo}"], [source = "${idDoNo}"][target = "${ultimoNo}"]`);
 
                     if (aresta.length > 0) {
@@ -89,7 +89,7 @@ let caminhoSelecionado = [];
                 }
                 document.getElementById('caminho-texto').innerText = caminhoSelecionado.join(" ➔ ");
             });
-            
+
             limparCaminho();
         }
 
@@ -121,7 +121,7 @@ let caminhoSelecionado = [];
         }
 
         async function enviarPalpite() {
-            if (caminhoSelecionado.length < 2 || caminhoSelecionado[0] !== "S" 
+            if (caminhoSelecionado.length < 2 || caminhoSelecionado[0] !== "S"
             || caminhoSelecionado[caminhoSelecionado.length - 1] !== "T") {
                 alert("O caminho deve começar em S e terminar em T!");
                 return;
@@ -170,7 +170,7 @@ let caminhoSelecionado = [];
             function proximoPasso() {
                 if (passo < caminhoOtimo.length) {
                     let idDoNo = caminhoOtimo[passo];
-                    
+
                     let no = cyGabarito.getElementById(idDoNo);
                     no.addClass('gabarito'); //colore o nó
 

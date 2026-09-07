@@ -20,7 +20,7 @@ GRAFO_FACIL = {
 }
 
 GRAFO_DIFICIL = {
-    "nodes": [
+    "nodes" : [
         {"data": {"id": "S"}, "position": {"x": 50, "y": 200}},
         {"data": {"id": "A"}, "position": {"x": 150, "y": 50}},
         {"data": {"id": "B"}, "position": {"x": 150, "y": 200}},
@@ -33,20 +33,20 @@ GRAFO_DIFICIL = {
         {"data": {"id": "T"}, "position": {"x": 450, "y": 200}}
     ],
     "edges": [
-        {"data": {"id": "SA", "source": "S", "target": "A", "weight": 4}},
-        {"data": {"id": "SB", "source": "S", "target": "B", "weight": 2}},
-        {"data": {"id": "SC", "source": "S", "target": "C", "weight": 3}},
-        {"data": {"id": "AD", "source": "A", "target": "D", "weight": 2}},
-        {"data": {"id": "BA", "source": "B", "target": "A", "weight": 1}},
-        {"data": {"id": "BE", "source": "B", "target": "E", "weight": 4}},
-        {"data": {"id": "CF", "source": "C", "target": "F", "weight": 2}},
-        {"data": {"id": "DG", "source": "D", "target": "G", "weight": 3}},
-        {"data": {"id": "ED", "source": "E", "target": "D", "weight": 1}},
-        {"data": {"id": "EG", "source": "E", "target": "G", "weight": 2}},
-        {"data": {"id": "EH", "source": "E", "target": "H", "weight": 3}},
-        {"data": {"id": "FE", "source": "F", "target": "E", "weight": 2}},
-        {"data": {"id": "FH", "source": "F", "target": "H", "weight": 4}},
-        {"data": {"id": "GT", "source": "G", "target": "T", "weight": 2}},
-        {"data": {"id": "HT", "source": "H", "target": "T", "weight": 1}}
+        {"data": {"source": "S", "target": "A", "weight": 4}},
+        {"data": {"source": "S", "target": "B", "weight": 2}},
+        {"data": {"source": "S", "target": "C", "weight": 3}},
+        {"data": {"source": "A", "target": "D", "weight": 2}},
+        {"data": {"source": "B", "target": "A", "weight": 1}},
+        {"data": {"source": "B", "target": "E", "weight": 4}},
+        {"data": {"source": "C", "target": "F", "weight": 2}},
+        {"data": {"source": "D", "target": "G", "weight": 3}},
+        {"data": {"source": "E", "target": "D", "weight": 1}},
+        {"data": {"source": "E", "target": "G", "weight": 2}},
+        {"data": {"source": "E", "target": "H", "weight": 3}},
+        {"data": {"source": "F", "target": "E", "weight": 2}},
+        {"data": {"source": "F", "target": "H", "weight": 4}},
+        {"data": {"source": "G", "target": "T", "weight": 2}},
+        {"data": {"source": "H", "target": "T", "weight": 1}}
     ]
 }
