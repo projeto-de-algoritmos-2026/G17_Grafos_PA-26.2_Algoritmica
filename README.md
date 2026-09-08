@@ -1,4 +1,7 @@
+<img align="right" src="assets/0imagemMenu.png" width="600">
+
 # Algoritmica
+
 Número da Lista: 17<br>
 *Conteúdo da disciplina*: Grafos<br>
 --- 
@@ -11,7 +14,9 @@ Número da Lista: 17<br>
 ## Sobre
 O Algoritmica é uma **ferramenta educacional interativa** desenvolvida para ensinar algoritmos de grafos na prática, no formato de **minigames**. O usuário interage com uma interface visual, selecionando nós e caminhos, e o sistema avalia suas escolhas comparando-as com a solução ótima gerada pelos **algoritmos** clássicos.
 
-- Atualmente Implementados: Dijkstra
+- Atualmente Implementados: Dijkstra & Kruskal
+
+**Em breve: BFS, DFS, Kosaraju(Componentes Fortemente Conectados)...**
 
 ## Screenshots
 
@@ -35,25 +40,23 @@ O Algoritmica é uma **ferramenta educacional interativa** desenvolvida para ens
       <img src="assets/3imagemDijkstraGabarito.png" width="400">
     </td>
     <td align="center">
-      <b>4. Algoritmo 2</b><br>
-      <img src="assets/tela4.png" width="400">
+      <b>4. Kruskal</b><br>
+      <img src="assets/4imagemKruskalInicial.png" width="400">
     </td>
   </tr>
   
   <!-- LINHA 3 -->
   <tr>
     <td align="center">
-      <b>5. Seleção de Caminho(Algoritmo 2)</b><br>
-      <img src="assets/tela5.png" width="400">
+      <b>5. Seleção de Caminho(Kruskal)</b><br>
+      <img src="assets/5imagemKruskalPalpite.png" width="400">
     </td>
     <td align="center">
-      <b>6. Exibindo Gabarito(Algoritmo 2)</b><br>
-      <img src="assets/tela6.png" width="400">
+      <b>6. Exibindo Gabarito(Kruskal)</b><br>
+      <img src="assets/6imagemKruskalGabarito.png" width="400">
     </td>
   </tr>
 </table>
-
-
 
 ## Instalação
 
@@ -134,3 +137,4 @@ Para garantir um desenvolvimento ágil focado na lógica estrutural, adotamos a 
 
 ## Vídeo de Apresentação
 
+[Link do Vídeo Gravado no Teams](https://unbbr-my.sharepoint.com/:v:/g/personal/251013660_aluno_unb_br/IQDOmUFJX0pNQ5Qo6G6lPPyiAVHMi4vHrXUsYw38PDZBymM?e=GBpeWj&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)
