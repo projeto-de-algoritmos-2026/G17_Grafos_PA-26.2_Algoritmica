@@ -33,20 +33,20 @@ GRAFO_DIFICIL = {
         {"data": {"id": "T"}, "position": {"x": 450, "y": 200}}
     ],
     "edges": [
-        {"data": {"source": "S", "target": "A", "weight": 4}},
-        {"data": {"source": "S", "target": "B", "weight": 2}},
-        {"data": {"source": "S", "target": "C", "weight": 3}},
-        {"data": {"source": "A", "target": "D", "weight": 2}},
-        {"data": {"source": "B", "target": "A", "weight": 1}},
-        {"data": {"source": "B", "target": "E", "weight": 4}},
-        {"data": {"source": "C", "target": "F", "weight": 2}},
-        {"data": {"source": "D", "target": "G", "weight": 3}},
-        {"data": {"source": "E", "target": "D", "weight": 1}},
-        {"data": {"source": "E", "target": "G", "weight": 2}},
-        {"data": {"source": "E", "target": "H", "weight": 3}},
-        {"data": {"source": "F", "target": "E", "weight": 2}},
-        {"data": {"source": "F", "target": "H", "weight": 4}},
-        {"data": {"source": "G", "target": "T", "weight": 2}},
-        {"data": {"source": "H", "target": "T", "weight": 1}}
+        {"data": {"id": "S-A", "source": "S", "target": "A", "weight": 4}},
+        {"data": {"id": "S-B", "source": "S", "target": "B", "weight": 2}},
+        {"data": {"id": "S-C", "source": "S", "target": "C", "weight": 3}},
+        {"data": {"id": "A-D", "source": "A", "target": "D", "weight": 2}},
+        {"data": {"id": "B-A", "source": "B", "target": "A", "weight": 1}},
+        {"data": {"id": "B-E", "source": "B", "target": "E", "weight": 4}},
+        {"data": {"id": "C-F", "source": "C", "target": "F", "weight": 2}},
+        {"data": {"id": "D-G", "source": "D", "target": "G", "weight": 3}},
+        {"data": {"id": "E-D", "source": "E", "target": "D", "weight": 1}},
+        {"data": {"id": "E-G", "source": "E", "target": "G", "weight": 2}},
+        {"data": {"id": "E-H", "source": "E", "target": "H", "weight": 3}},
+        {"data": {"id": "F-E", "source": "F", "target": "E", "weight": 2}},
+        {"data": {"id": "F-H", "source": "F", "target": "H", "weight": 4}},
+        {"data": {"id": "G-T", "source": "G", "target": "T", "weight": 2}},
+        {"data": {"id": "H-T", "source": "H", "target": "T", "weight": 1}}
     ]
 }
