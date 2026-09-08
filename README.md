@@ -1,15 +1,32 @@
-<img align="right" src="assets/0imagemMenu.png" width="600">
+<table>
+  <tr>
+    <td valign="top">
+      <h1><font size="6"><b>Algoritmica</b></font><br></h1>
+      <h3><b>Número da Lista:</b> 17<br></h3>
+      <h3><i>Conteúdo da disciplina:</i> Grafos<br></h3>
+      <h3>Alunos</h3>
+      <table>
+        <tr>
+          <th>Matrícula</th>
+          <th>Aluno</th>
+        </tr>
+        <tr>
+          <td>251013660</td>
+          <td>Matheus Moretti Soares</td>
+        </tr>
+        <tr>
+          <td>251019771</td>
+          <td>Daniel Filipe Borges de Oliveira</td>
+        </tr>
+      </table>
+    </td>
+    <td valign="top" align="center">
+      <img src="assets/0imagemMenu.png" width="800">
+    </td>
+  </tr>
+</table>
 
-# Algoritmica
-
-Número da Lista: 17<br>
-*Conteúdo da disciplina*: Grafos<br>
---- 
-## Alunos
-| Matrícula | Aluno                            |
-|-----------|----------------------------------|
-| 251013660 | Matheus Moretti Soares           |
-| 251019771 | Daniel Filipe Borges de Oliveira |
+---
 
 ## Sobre
 O Algoritmica é uma **ferramenta educacional interativa** desenvolvida para ensinar algoritmos de grafos na prática, no formato de **minigames**. O usuário interage com uma interface visual, selecionando nós e caminhos, e o sistema avalia suas escolhas comparando-as com a solução ótima gerada pelos **algoritmos** clássicos.
