@@ -21,7 +21,7 @@
       </table>
     </td>
     <td valign="top" align="center">
-      <img src="assets/0imagemMenu.png" width="800">
+      <img src="assets/gifAlgoritmica.gif" width="800">
     </td>
   </tr>
 </table>
